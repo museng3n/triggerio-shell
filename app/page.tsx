@@ -490,7 +490,7 @@ export default function ShellPage() {
         </div>
 
         {/* Navigation */}
-        <nav className="flex-1 overflow-y-auto py-2">
+        <nav className="overflow-y-auto py-2">
           {SECTIONS.map((section) => {
             const items = NAV_ITEMS.filter((i) => i.section === section.id);
             if (items.length === 0) return null;
@@ -506,71 +506,77 @@ export default function ShellPage() {
                 >
                   {section.label}
                 </div>
-                {items.map((item) => (
-                  <div key={item.id}>
-                    <NavItemButton
-                      item={item}
-                      isActive={activeId === item.id || (item.subItems?.some(s => activeId === s.id) ?? false)}
-                      onClick={() => handleNavClick(item)}
-                      hasSubmenu={!!item.subItems}
-                      isOpen={item.id === "social-inbox" ? inboxOpen : false}
-                    />
-                    {item.subItems && item.id === "social-inbox" && inboxOpen && (
-                      <div>
-                        {item.subItems.map((sub) => (
-                          <button
-                            key={sub.id}
-                            onClick={() => handleSubItemClick(sub)}
-                            className="w-full flex items-center gap-3 transition-colors"
-                            style={{
-                              paddingRight: 52,
-                              paddingLeft: 16,
-                              paddingTop: 8,
-                              paddingBottom: 8,
-                              backgroundColor: activeId === sub.id ? "#F5F3FF" : undefined,
-                              color: activeId === sub.id ? "#7C3AED" : "#6B7280",
-                            }}
-                            onMouseEnter={(e) => {
-                              if (activeId !== sub.id) {
-                                e.currentTarget.style.backgroundColor = "#F9FAFB";
-                              }
-                            }}
-                            onMouseLeave={(e) => {
-                              if (activeId !== sub.id) {
-                                e.currentTarget.style.backgroundColor = "transparent";
-                              }
-                            }}
-                          >
-                            <div
-                              className="flex items-center justify-center flex-shrink-0"
+                {items.map((item) => {
+                  const isSubmenuOpen = item.id === "social-inbox" && inboxOpen;
+                  const hasSubmenu = !!item.subItems;
+                  const isItemActive = activeId === item.id || (hasSubmenu && item.subItems!.some(s => activeId === s.id));
+
+                  return (
+                    <div key={item.id}>
+                      <NavItemButton
+                        item={item}
+                        isActive={isItemActive}
+                        onClick={() => handleNavClick(item)}
+                        hasSubmenu={hasSubmenu}
+                        isOpen={isSubmenuOpen}
+                      />
+                      {hasSubmenu && (
+                        <div style={{ display: isSubmenuOpen ? "block" : "none" }}>
+                          {item.subItems!.map((sub) => (
+                            <button
+                              key={sub.id}
+                              onClick={() => handleSubItemClick(sub)}
+                              className="w-full flex items-center gap-3 transition-colors"
                               style={{
-                                width: 28,
-                                height: 28,
-                                borderRadius: 7,
-                                backgroundColor: sub.iconBg,
+                                paddingRight: 52,
+                                paddingLeft: 16,
+                                paddingTop: 8,
+                                paddingBottom: 8,
+                                backgroundColor: activeId === sub.id ? "#F5F3FF" : undefined,
+                                color: activeId === sub.id ? "#7C3AED" : "#6B7280",
+                              }}
+                              onMouseEnter={(e) => {
+                                if (activeId !== sub.id) {
+                                  e.currentTarget.style.backgroundColor = "#F9FAFB";
+                                }
+                              }}
+                              onMouseLeave={(e) => {
+                                if (activeId !== sub.id) {
+                                  e.currentTarget.style.backgroundColor = "transparent";
+                                }
                               }}
                             >
-                              {sub.icon}
-                            </div>
-                            <span
-                              className="font-medium leading-tight"
-                              style={{ fontSize: 13 }}
-                            >
-                              {sub.nameAr}
-                            </span>
-                          </button>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                ))}
+                              <div
+                                className="flex items-center justify-center flex-shrink-0"
+                                style={{
+                                  width: 28,
+                                  height: 28,
+                                  borderRadius: 7,
+                                  backgroundColor: sub.iconBg,
+                                }}
+                              >
+                                {sub.icon}
+                              </div>
+                              <span
+                                className="font-medium leading-tight"
+                                style={{ fontSize: 13 }}
+                              >
+                                {sub.nameAr}
+                              </span>
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             );
           })}
         </nav>
 
         {/* Bottom section */}
-        <div style={{ borderTop: "1px solid #E5E7EB" }} className="py-2">
+        <div style={{ borderTop: "1px solid #E5E7EB" }} className="mt-auto py-2">
           <NavItemButton
             item={SETTINGS_ITEM}
             isActive={activeId === "settings"}
