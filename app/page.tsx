@@ -490,7 +490,7 @@ export default function ShellPage() {
         </div>
 
         {/* Navigation */}
-        <nav className="overflow-y-auto py-2">
+        <nav className="flex-1 overflow-y-auto py-2" style={{ minHeight: 0 }}>
           {SECTIONS.map((section) => {
             const items = NAV_ITEMS.filter((i) => i.section === section.id);
             if (items.length === 0) return null;
@@ -576,7 +576,7 @@ export default function ShellPage() {
         </nav>
 
         {/* Bottom section */}
-        <div style={{ borderTop: "1px solid #E5E7EB" }} className="mt-auto py-2">
+        <div style={{ borderTop: "1px solid #E5E7EB", flexShrink: 0 }} className="py-2">
           <NavItemButton
             item={SETTINGS_ITEM}
             isActive={activeId === "settings"}
