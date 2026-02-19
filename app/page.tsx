@@ -470,15 +470,12 @@ export default function ShellPage() {
 
       {/* Sidebar — right side (in RTL, fixed right) */}
       <aside
-        className="bg-white"
+        className="flex flex-col h-screen bg-white"
         style={{
           width: 280,
           minWidth: 280,
           flexShrink: 0,
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-          height: "100vh",
+          position: "relative",
           borderLeft: "1px solid #E5E7EB",
         }}
       >
@@ -494,7 +491,7 @@ export default function ShellPage() {
         </div>
 
         {/* Navigation */}
-        <nav className="overflow-y-auto py-2">
+        <nav className="flex-1 overflow-y-auto py-2" style={{ paddingBottom: 120 }}>
           {SECTIONS.map((section) => {
             const items = NAV_ITEMS.filter((i) => i.section === section.id);
             if (items.length === 0) return null;
@@ -580,7 +577,16 @@ export default function ShellPage() {
         </nav>
 
         {/* Bottom section */}
-        <div style={{ borderTop: "1px solid #E5E7EB" }} className="py-2">
+        <div
+          style={{
+            position: "absolute",
+            bottom: 0,
+            width: "100%",
+            backgroundColor: "white",
+            borderTop: "1px solid #E5E7EB",
+          }}
+          className="py-2"
+        >
           <NavItemButton
             item={SETTINGS_ITEM}
             isActive={activeId === "settings"}
