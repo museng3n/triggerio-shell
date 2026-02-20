@@ -170,7 +170,7 @@ const NAV_ITEMS: NavItem[] = [
     id: "contacts",
     nameAr: "جهات الاتصال",
     nameEn: "Contacts",
-    url: "https://contacts-management.vercel.app",
+    url: "https://contacts-management-plum.vercel.app",
     icon: <ContactsIcon color="#7C3AED" />,
     iconBg: "#F5F3FF",
     iconColor: "#7C3AED",
