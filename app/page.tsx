@@ -306,7 +306,7 @@ function NavItemButton({
   return (
     <button
       onClick={onClick}
-      className="w-full flex items-center gap-3 relative transition-colors"
+      className="group w-full flex items-center gap-3 relative transition-colors"
       style={{
         backgroundColor: isActive ? "#F5F3FF" : undefined,
         color: isLogout ? "#EF4444" : isActive ? "#7C3AED" : "#6B7280",
@@ -347,7 +347,7 @@ function NavItemButton({
       {/* Text */}
       <div className="flex flex-col items-start min-w-0">
         <span
-          className="font-semibold leading-tight"
+          className="font-semibold leading-tight transition-all duration-300 group-hover:bg-gradient-to-r group-hover:from-purple-500 group-hover:via-pink-400 group-hover:to-orange-300 group-hover:bg-clip-text group-hover:text-transparent"
           style={{ fontSize: 14 }}
         >
           {item.nameAr}
@@ -553,7 +553,7 @@ export default function ShellPage() {
                             <button
                               key={sub.id}
                               onClick={() => handleSubItemClick(sub)}
-                              className="w-full flex items-center gap-3 transition-colors"
+                              className="group w-full flex items-center gap-3 transition-colors"
                               style={{
                                 paddingRight: 52,
                                 paddingLeft: 16,
@@ -585,7 +585,7 @@ export default function ShellPage() {
                                 {sub.icon}
                               </div>
                               <span
-                                className="font-medium leading-tight"
+                                className="font-medium leading-tight transition-all duration-300 group-hover:bg-gradient-to-r group-hover:from-purple-500 group-hover:via-pink-400 group-hover:to-orange-300 group-hover:bg-clip-text group-hover:text-transparent"
                                 style={{ fontSize: 13 }}
                               >
                                 {sub.nameAr}
