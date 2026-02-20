@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface SubItem {
   id: string;
@@ -405,12 +405,38 @@ function NavItemButton({
 }
 
 export default function ShellPage() {
+  const [token, setToken] = useState<string | null>(null);
   const [activeUrl, setActiveUrl] = useState(
     "https://triggerio-dashboard.vercel.app"
   );
   const [activeId, setActiveId] = useState("dashboard");
   const [iframeError, setIframeError] = useState(false);
   const [inboxOpen, setInboxOpen] = useState(false);
+
+  // Handle token from URL or localStorage
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const urlToken = params.get("token");
+
+    if (urlToken) {
+      localStorage.setItem("authToken", urlToken);
+      setToken(urlToken);
+      // Clean URL
+      window.history.replaceState({}, "", window.location.pathname);
+    } else {
+      const storedToken = localStorage.getItem("authToken");
+      if (storedToken) {
+        setToken(storedToken);
+      }
+    }
+  }, []);
+
+  // Build iframe URL with token
+  const getIframeUrl = (baseUrl: string) => {
+    if (!token) return baseUrl;
+    const separator = baseUrl.includes("?") ? "&" : "?";
+    return `${baseUrl}${separator}token=${token}`;
+  };
 
   const handleNavClick = (item: NavItem) => {
     if (item.isLogout) {
@@ -440,7 +466,7 @@ export default function ShellPage() {
       <div className="h-full relative" style={{ width: "calc(100vw - 280px)", minWidth: 0 }}>
         <iframe
           key={activeUrl}
-          src={activeUrl}
+          src={getIframeUrl(activeUrl)}
           className="w-full h-full border-0"
           title="Triggerio App"
           sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox"
