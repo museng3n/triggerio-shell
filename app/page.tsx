@@ -417,16 +417,16 @@ export default function ShellPage() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const urlToken = params.get("token");
-
     if (urlToken) {
       localStorage.setItem("triggerio_token", urlToken);
       setToken(urlToken);
-      // Clean URL
       window.history.replaceState({}, "", window.location.pathname);
     } else {
       const storedToken = localStorage.getItem("triggerio_token");
       if (storedToken) {
         setToken(storedToken);
+      } else {
+        window.location.href = "https://triggerio-auth.vercel.app/login";
       }
     }
   }, []);
