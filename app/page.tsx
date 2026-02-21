@@ -419,12 +419,12 @@ export default function ShellPage() {
     const urlToken = params.get("token");
 
     if (urlToken) {
-      localStorage.setItem("authToken", urlToken);
+      localStorage.setItem("triggerio_token", urlToken);
       setToken(urlToken);
       // Clean URL
       window.history.replaceState({}, "", window.location.pathname);
     } else {
-      const storedToken = localStorage.getItem("authToken");
+      const storedToken = localStorage.getItem("triggerio_token");
       if (storedToken) {
         setToken(storedToken);
       }
