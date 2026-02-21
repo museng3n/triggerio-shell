@@ -423,9 +423,10 @@ export default function ShellPage() {
       window.history.replaceState({}, "", window.location.pathname);
     } else {
       const storedToken = localStorage.getItem("authToken");
-      if (storedToken) {
+      if (storedToken && storedToken !== "undefined" && storedToken.length > 10) {
         setToken(storedToken);
       } else {
+        localStorage.removeItem("authToken");
         window.location.href = "https://triggerio-auth.vercel.app/login";
       }
     }
