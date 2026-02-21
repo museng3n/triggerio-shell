@@ -418,11 +418,11 @@ export default function ShellPage() {
     const params = new URLSearchParams(window.location.search);
     const urlToken = params.get("token");
     if (urlToken) {
-      localStorage.setItem("triggerio_token", urlToken);
+      localStorage.setItem("authToken", urlToken);
       setToken(urlToken);
       window.history.replaceState({}, "", window.location.pathname);
     } else {
-      const storedToken = localStorage.getItem("triggerio_token");
+      const storedToken = localStorage.getItem("authToken");
       if (storedToken) {
         setToken(storedToken);
       } else {
@@ -440,7 +440,7 @@ export default function ShellPage() {
 
   const handleNavClick = (item: NavItem) => {
     if (item.isLogout) {
-      localStorage.removeItem("triggerio_token");
+      localStorage.removeItem("authToken");
       localStorage.removeItem("triggerio_user");
       window.location.href = "https://triggerio-auth.vercel.app";
       return;
