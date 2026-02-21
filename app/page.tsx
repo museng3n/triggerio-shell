@@ -464,15 +464,21 @@ export default function ShellPage() {
     <div className="flex h-screen w-screen overflow-hidden">
       {/* Iframe area — left side (in RTL, this is the start) */}
       <div className="h-full relative" style={{ width: "calc(100vw - 280px)", minWidth: 0 }}>
-        <iframe
-          key={activeUrl}
-          src={getIframeUrl(activeUrl)}
-          className="w-full h-full border-0"
-          title="Triggerio App"
-          sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox"
-          onError={() => setIframeError(true)}
-          onLoad={() => setIframeError(false)}
-        />
+        {token ? (
+          <iframe
+            key={activeUrl + token}
+            src={getIframeUrl(activeUrl)}
+            className="w-full h-full border-0"
+            title="Triggerio App"
+            sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox"
+            onError={() => setIframeError(true)}
+            onLoad={() => setIframeError(false)}
+          />
+        ) : (
+          <div className="flex items-center justify-center h-full">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600"></div>
+          </div>
+        )}
         {iframeError && (
           <div className="absolute inset-0 flex flex-col items-center justify-center bg-white gap-4" dir="rtl">
             <p style={{ fontSize: 16, color: "#6B7280" }}>
