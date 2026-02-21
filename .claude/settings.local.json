@@ -7,7 +7,10 @@
       "Bash(git commit:*)",
       "Bash(git push:*)",
       "Bash(git remote add:*)",
-      "Bash(npx next dev:*)"
+      "Bash(npx next dev:*)",
+      "WebSearch",
+      "Bash(git show:*)",
+      "WebFetch(domain:analytics-dashboard.vercel.app)"
     ]
   }
 }
