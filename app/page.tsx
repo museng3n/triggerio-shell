@@ -257,7 +257,7 @@ const NAV_ITEMS: NavItem[] = [
     id: "analytics",
     nameAr: "التحليلات",
     nameEn: "Analytics",
-    url: "https://analytics-dashboard.vercel.app",
+    url: "https://analytics-dashboard-zeta-tawny.vercel.app",
     icon: <AnalyticsIcon color="#2563EB" />,
     iconBg: "#DBEAFE",
     iconColor: "#2563EB",
