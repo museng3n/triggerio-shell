@@ -180,7 +180,7 @@ const NAV_ITEMS: NavItem[] = [
     id: "campaigns",
     nameAr: "الحملات",
     nameEn: "Campaigns",
-    url: "https://cold-email-campaigns.vercel.app",
+    url: "https://triggerio-cold-email-campaigns.vercel.app",
     icon: <CampaignsIcon color="#F59E0B" />,
     iconBg: "#FFFBEB",
     iconColor: "#F59E0B",
