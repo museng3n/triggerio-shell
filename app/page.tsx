@@ -456,6 +456,7 @@ export default function ShellPage() {
 
   // Build iframe URL with token
   const getIframeUrl = (baseUrl: string) => {
+    console.log('getIframeUrl called - token:', token, 'baseUrl:', baseUrl);
     if (!token) return baseUrl;
     const separator = baseUrl.includes("?") ? "&" : "?";
     return `${baseUrl}${separator}token=${token}`;
@@ -495,7 +496,7 @@ export default function ShellPage() {
             title="Triggerio App"
             sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox"
             onError={() => setIframeError(true)}
-            onLoad={() => setIframeError(false)}
+            onLoad={() => { setIframeError(false); console.log('iframe loaded with src:', getIframeUrl(activeUrl)); }}
           />
         ) : (
           <div className="flex items-center justify-center h-full">
