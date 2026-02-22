@@ -438,7 +438,7 @@ export default function ShellPage() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const urlToken = params.get("token");
-    if (urlToken) {
+    if (urlToken && urlToken !== 'undefined' && urlToken.length > 10) {
       localStorage.setItem("authToken", urlToken);
       localStorage.setItem("authTokenTime", Date.now().toString());
       setToken(urlToken);
