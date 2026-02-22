@@ -227,7 +227,7 @@ const NAV_ITEMS: NavItem[] = [
     id: "automation-rules",
     nameAr: "قواعد الأتمتة",
     nameEn: "Automation Rules",
-    url: "https://automation-rules-page.vercel.app",
+    url: "https://triggerio-automation-rules.vercel.app",
     icon: <AutomationRulesIcon color="#7C3AED" />,
     iconBg: "#EDE9FE",
     iconColor: "#7C3AED",
