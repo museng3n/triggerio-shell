@@ -439,7 +439,12 @@ export default function ShellPage() {
         if (event.data?.type === 'NAVIGATE' && event.data.page) {
           const navItem = NAV_ITEMS.find(item => item.id === event.data.page);
           if (navItem) {
-            setActiveUrl(navItem.url);
+            let url = navItem.url;
+            if (event.data.ruleId) {
+              const sep = url.includes('?') ? '&' : '?';
+              url = `${url}${sep}ruleId=${event.data.ruleId}`;
+            }
+            setActiveUrl(url);
             setActiveId(navItem.id);
             setIframeError(false);
           }
