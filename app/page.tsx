@@ -413,6 +413,14 @@ export default function ShellPage() {
   const [iframeError, setIframeError] = useState(false);
   const [inboxOpen, setInboxOpen] = useState(false);
 
+  // Wake up Render backend (free tier sleeps after inactivity)
+  useEffect(() => {
+    fetch('https://triggerio-backend.onrender.com/api/health', {
+      method: 'GET',
+      signal: AbortSignal.timeout(90000)
+    }).catch(() => {}); // Ignore errors - just wake it up
+  }, []);
+
   // Listen for AUTH_REQUIRED from iframe apps on 401
   useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
