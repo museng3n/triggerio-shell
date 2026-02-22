@@ -418,7 +418,14 @@ export default function ShellPage() {
     const handleMessage = (event: MessageEvent) => {
       if (event.origin.includes('vercel.app')) {
         if (event.data?.type === 'AUTH_REQUIRED') {
+          // Don't redirect if token was just set (fresh login grace period)
+          const tokenSetTime = localStorage.getItem('authTokenTime');
+          const now = Date.now();
+          if (tokenSetTime && (now - parseInt(tokenSetTime)) < 15000) {
+            return; // Ignore AUTH_REQUIRED within 15 seconds of login
+          }
           localStorage.removeItem('authToken');
+          localStorage.removeItem('authTokenTime');
           window.location.href = 'https://triggerio-auth.vercel.app/login';
         }
       }
@@ -433,6 +440,7 @@ export default function ShellPage() {
     const urlToken = params.get("token");
     if (urlToken) {
       localStorage.setItem("authToken", urlToken);
+      localStorage.setItem("authTokenTime", Date.now().toString());
       setToken(urlToken);
       window.history.replaceState({}, "", window.location.pathname);
     } else {
