@@ -190,7 +190,7 @@ const NAV_ITEMS: NavItem[] = [
     id: "campaign-builder",
     nameAr: "منشئ الحملات",
     nameEn: "Campaign Builder",
-    url: "https://campaign-builder.vercel.app",
+    url: "https://triggerio-campaign-builder.vercel.app",
     icon: <CampaignBuilderIcon color="#F97316" />,
     iconBg: "#FFF7ED",
     iconColor: "#F97316",
@@ -435,6 +435,14 @@ export default function ShellPage() {
           localStorage.removeItem('authToken');
           localStorage.removeItem('authTokenTime');
           window.location.href = 'https://triggerio-auth.vercel.app/login';
+        }
+        if (event.data?.type === 'NAVIGATE' && event.data.page) {
+          const navItem = NAV_ITEMS.find(item => item.id === event.data.page);
+          if (navItem) {
+            setActiveUrl(navItem.url);
+            setActiveId(navItem.id);
+            setIframeError(false);
+          }
         }
       }
     };
