@@ -237,7 +237,7 @@ const NAV_ITEMS: NavItem[] = [
     id: "automation-builder",
     nameAr: "منشئ الأتمتة",
     nameEn: "Automation Builder",
-    url: "https://automation-builder-page.vercel.app",
+    url: "https://triggerio-automation-builder.vercel.app",
     icon: <AutomationBuilderIcon color="#D97706" />,
     iconBg: "#FEF3C7",
     iconColor: "#D97706",
