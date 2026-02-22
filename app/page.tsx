@@ -413,6 +413,20 @@ export default function ShellPage() {
   const [iframeError, setIframeError] = useState(false);
   const [inboxOpen, setInboxOpen] = useState(false);
 
+  // Listen for AUTH_REQUIRED from iframe apps on 401
+  useEffect(() => {
+    const handleMessage = (event: MessageEvent) => {
+      if (event.origin.includes('vercel.app')) {
+        if (event.data?.type === 'AUTH_REQUIRED') {
+          localStorage.removeItem('authToken');
+          window.location.href = 'https://triggerio-auth.vercel.app/login';
+        }
+      }
+    };
+    window.addEventListener('message', handleMessage);
+    return () => window.removeEventListener('message', handleMessage);
+  }, []);
+
   // Handle token from URL or localStorage
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
