@@ -10,7 +10,8 @@
       "Bash(npx next dev:*)",
       "WebSearch",
       "Bash(git show:*)",
-      "WebFetch(domain:analytics-dashboard.vercel.app)"
+      "WebFetch(domain:analytics-dashboard.vercel.app)",
+      "Bash(cd:*)"
     ]
   }
 }
