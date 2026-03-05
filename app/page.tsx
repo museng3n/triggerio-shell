@@ -190,7 +190,7 @@ const NAV_ITEMS: NavItem[] = [
     id: "campaign-builder",
     nameAr: "منشئ الحملات",
     nameEn: "Campaign Builder",
-    url: "https://triggerio-campaign-builder.vercel.app",
+    url: "https://campaign-builder.vercel.app",
     icon: <CampaignBuilderIcon color="#F97316" />,
     iconBg: "#FFF7ED",
     iconColor: "#F97316",
