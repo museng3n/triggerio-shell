@@ -404,6 +404,22 @@ function NavItemButton({
   );
 }
 
+function getNameFromToken(jwt: string | null): string {
+  if (!jwt) return "";
+  try {
+    const payload = JSON.parse(atob(jwt.split(".")[1]));
+    return payload.name || "";
+  } catch {
+    return "";
+  }
+}
+
+function getAvatarColor(name: string): string {
+  const colors = ["#7C3AED", "#2563EB", "#059669", "#D97706", "#DC2626", "#0891B2", "#4F46E5", "#BE185D"];
+  const charCode = name ? name.charCodeAt(0) : 0;
+  return colors[charCode % colors.length];
+}
+
 export default function ShellPage() {
   const [token, setToken] = useState<string | null>(null);
   const [activeUrl, setActiveUrl] = useState(
@@ -412,6 +428,7 @@ export default function ShellPage() {
   const [activeId, setActiveId] = useState("dashboard");
   const [iframeError, setIframeError] = useState(false);
   const [inboxOpen, setInboxOpen] = useState(false);
+  const [userName, setUserName] = useState("");
 
   // Wake up Render backend (free tier sleeps after inactivity)
   useEffect(() => {
@@ -475,6 +492,27 @@ export default function ShellPage() {
     }
   }, []);
 
+  // Extract user name from JWT token
+  useEffect(() => {
+    if (token) {
+      const name = getNameFromToken(token);
+      if (name) {
+        setUserName(name);
+      } else {
+        // Fallback: try fetching from API
+        fetch("https://triggerio-backend.onrender.com/api/auth/me", {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            const n = data?.data?.user?.name || data?.user?.name || "";
+            if (n) setUserName(n);
+          })
+          .catch(() => {});
+      }
+    }
+  }, [token]);
+
   // Build iframe URL with token
   const getIframeUrl = (baseUrl: string) => {
     console.log('getIframeUrl called - token:', token, 'baseUrl:', baseUrl);
@@ -508,12 +546,71 @@ export default function ShellPage() {
   return (
     <div className="flex h-screen w-screen overflow-hidden">
       {/* Iframe area — left side (in RTL, this is the start) */}
-      <div className="h-full relative" style={{ width: "calc(100vw - 280px)", minWidth: 0 }}>
+      <div className="h-full relative flex flex-col" style={{ width: "calc(100vw - 280px)", minWidth: 0 }}>
+        {/* Top Header Bar */}
+        <div
+          className="flex items-center justify-between px-4 flex-shrink-0"
+          style={{
+            height: 52,
+            borderBottom: "1px solid #E5E7EB",
+            backgroundColor: "#FAFAFA",
+          }}
+        >
+          <div />
+          <div className="flex items-center gap-3">
+            {/* Notification Bell */}
+            <button
+              className="flex items-center justify-center rounded-full transition-colors hover:bg-orange-200"
+              style={{ width: 36, height: 36, backgroundColor: "#FFF7ED" }}
+              title="الإشعارات"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F97316" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+              </svg>
+              <span
+                className="absolute flex items-center justify-center text-white font-bold rounded-full"
+                style={{
+                  fontSize: 9,
+                  width: 16,
+                  height: 16,
+                  backgroundColor: "#EF4444",
+                  top: 6,
+                  marginRight: -10,
+                  marginTop: -8,
+                  position: "relative",
+                }}
+              >
+                3
+              </span>
+            </button>
+
+            {/* Profile Avatar */}
+            <button
+              className="flex items-center justify-center rounded-full text-white font-bold select-none transition-transform hover:scale-105"
+              style={{
+                width: 36,
+                height: 36,
+                backgroundColor: getAvatarColor(userName),
+                fontSize: 16,
+              }}
+              title={userName || "الملف الشخصي"}
+              onClick={() => {
+                setActiveUrl("https://settings-page-build.vercel.app");
+                setActiveId("settings");
+                setIframeError(false);
+              }}
+            >
+              {userName ? userName.charAt(0).toUpperCase() : "?"}
+            </button>
+          </div>
+        </div>
+
         {token ? (
           <iframe
             key={activeUrl + token}
             src={getIframeUrl(activeUrl)}
-            className="w-full h-full border-0"
+            className="w-full border-0 flex-1"
             title="Triggerio App"
             sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox"
             onError={() => setIframeError(true)}
