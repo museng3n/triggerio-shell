@@ -585,24 +585,6 @@ export default function ShellPage() {
               </span>
             </button>
 
-            {/* Profile Avatar */}
-            <button
-              className="flex items-center justify-center rounded-full text-white font-bold select-none transition-transform hover:scale-105"
-              style={{
-                width: 36,
-                height: 36,
-                backgroundColor: getAvatarColor(userName),
-                fontSize: 16,
-              }}
-              title={userName || "الملف الشخصي"}
-              onClick={() => {
-                setActiveUrl("https://settings-page-build.vercel.app");
-                setActiveId("settings");
-                setIframeError(false);
-              }}
-            >
-              {userName ? userName.charAt(0).toUpperCase() : "?"}
-            </button>
           </div>
         </div>
 
@@ -653,16 +635,6 @@ export default function ShellPage() {
           borderLeft: "1px solid #E5E7EB",
         }}
       >
-        {/* Logo */}
-        <div
-          className="flex items-center"
-          style={{
-            padding: "18px 16px",
-            borderBottom: "1px solid #E5E7EB",
-          }}
-        >
-          <img src="/logo.png" alt="Triggerio" style={{ height: 40 }} />
-        </div>
 
         {/* Navigation */}
         <nav className="flex-1 overflow-y-auto py-2" style={{ paddingBottom: 120 }}>
