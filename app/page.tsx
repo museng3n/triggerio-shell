@@ -585,6 +585,15 @@ export default function ShellPage() {
               </span>
             </button>
 
+            {/* Profile Avatar */}
+            <button
+              className="flex items-center justify-center rounded-full text-white font-bold select-none transition-transform hover:scale-105"
+              style={{ width: 36, height: 36, backgroundColor: getAvatarColor(userName), fontSize: 16 }}
+              title={userName || "الملف الشخصي"}
+              onClick={() => { setActiveUrl("https://settings-page-build.vercel.app"); setActiveId("settings"); setIframeError(false); }}
+            >
+              {userName ? userName.charAt(0).toUpperCase() : "?"}
+            </button>
           </div>
         </div>
 
