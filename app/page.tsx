@@ -453,17 +453,24 @@ export default function ShellPage() {
           localStorage.removeItem('authTokenTime');
           window.location.href = 'https://triggerio-auth.vercel.app/login';
         }
-        if (event.data?.type === 'NAVIGATE' && event.data.page) {
-          const navItem = NAV_ITEMS.find(item => item.id === event.data.page);
-          if (navItem) {
-            let url = navItem.url;
-            if (event.data.ruleId) {
-              const sep = url.includes('?') ? '&' : '?';
-              url = `${url}${sep}ruleId=${event.data.ruleId}`;
-            }
-            setActiveUrl(url);
-            setActiveId(navItem.id);
+        if (event.data?.type === 'NAVIGATE') {
+          if (event.data.url) {
+            setActiveUrl(event.data.url);
+            const matchedItem = NAV_ITEMS.find(item => event.data.url.startsWith(item.url));
+            if (matchedItem) setActiveId(matchedItem.id);
             setIframeError(false);
+          } else if (event.data.page) {
+            const navItem = NAV_ITEMS.find(item => item.id === event.data.page);
+            if (navItem) {
+              let url = navItem.url;
+              if (event.data.ruleId) {
+                const sep = url.includes('?') ? '&' : '?';
+                url = `${url}${sep}ruleId=${event.data.ruleId}`;
+              }
+              setActiveUrl(url);
+              setActiveId(navItem.id);
+              setIframeError(false);
+            }
           }
         }
       }
