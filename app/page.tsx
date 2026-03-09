@@ -610,7 +610,7 @@ export default function ShellPage() {
             src={getIframeUrl(activeUrl)}
             className="w-full border-0 flex-1"
             title="Triggerio App"
-            sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox"
+            sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox allow-modals"
             onError={() => setIframeError(true)}
             onLoad={() => { setIframeError(false); console.log('iframe loaded with src:', getIframeUrl(activeUrl)); }}
           />
